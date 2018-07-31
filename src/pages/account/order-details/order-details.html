@@ -1,0 +1,78 @@
+<ion-header no-border>
+    <ion-navbar color="header">
+        <button ion-button menuToggle>
+            <ion-icon name="menu"> </ion-icon>
+        </button>
+        <ion-title text-center>{{"Informação do pedido" | translate}} </ion-title>
+    </ion-navbar>
+</ion-header>
+<ion-content class="order-details">
+    <ion-spinner *ngIf="!orderDetails" name="crescent"> </ion-spinner>
+    <div *ngIf="orderDetails">
+        <ion-item-group>
+            <ion-card>
+                <ion-card-header style="background-color: #f5f5f5"> {{"Detalhes do pedido" | translate}}
+                    <!--span class="order-status {{orderDetails.status}}">{{orderDetails.status}}</span-->
+                </ion-card-header>
+                <ion-item class="top-details">
+                    <ion-row>
+                        <ion-col class="dull">{{"Status" | translate}} </ion-col>
+                        <ion-col text-right>
+                            <button *ngIf="orderDetails.status == 'processing'" class="order-status {{orderDetails.status}}">processando</button>
+                            <button *ngIf="orderDetails.status != 'processing'" class="order-status {{orderDetails.status}}">{{orderDetails.status}}</button>
+                        </ion-col>
+                    </ion-row>
+                    <ion-row>
+                        <ion-col class="dull">{{"Número do pedido" | translate }} </ion-col>
+                        <ion-col text-right>{{orderDetails.number}} </ion-col>
+                    </ion-row>
+                    <ion-row>
+                        <ion-col class="dull">{{"Data" | translate}} </ion-col>
+                        <ion-col text-right>{{orderDetails.date_created | date:'MMM d, y hh:mm a'}} </ion-col>
+                    </ion-row>
+                    <ion-row>
+                        <ion-col class="dull">{{"Método de pagamento" | translate}} </ion-col>
+                        <ion-col text-right>{{orderDetails.payment_method_title}} </ion-col>
+                    </ion-row>
+                </ion-item>
+            </ion-card>
+            <ion-card class="item-details">
+                <ion-card-header style="background-color: #f5f5f5"> {{"Detalhe do item" | translate}} </ion-card-header>
+                <ion-item *ngFor="let item of orderDetails.line_items">
+                    <h2 text-wrap><span class="dull">{{"Nome do item" | translate}} :</span> {{item.name}}
+      </h2>
+                    <h2><span class="dull">{{"Preço" | translate}} :</span> {{item.price | currency:values.currency:true:'1.2-2'}}
+      </h2>
+                    <h2><span class="dull">{{"Quantidade" | translate}} :</span> {{item.quantity}}
+      </h2>
+                    <h2><span class="dull">{{"Total" | translate}} :</span> {{1*item.subtotal | currency:values.currency:true:'1.2-2'}}
+      </h2> </ion-item>
+            </ion-card>
+            <ion-card>
+                <ion-card-header style="background-color: #f5f5f5"> {{"Seu endereço" | translate}} </ion-card-header>
+                <ion-item text-wrap> {{orderDetails.billing.first_name}} {{orderDetails.billing.last_name}} {{orderDetails.billing.email}} {{orderDetails.billing.phone}} {{orderDetails.billing.address_1}} {{orderDetails.billing.address_2}} {{orderDetails.billing.city}} {{orderDetails.billing.state}} {{orderDetails.billing.postcode}} </ion-item>
+            </ion-card>
+            <ion-card>
+                <ion-card-header style="background-color: #f5f5f5"> {{"Total" | translate}} </ion-card-header>
+                <ion-item>
+                    <ion-row>
+                        <ion-col class="dull">{{"Total" | translate}} </ion-col>
+                        <ion-col text-right>{{(1*orderDetails.total - 1*orderDetails.shipping_total - 1*orderDetails.total_tax) | currency:values.currency:true:'1.2-2'}} </ion-col>
+                    </ion-row>
+                    <ion-row>
+                        <ion-col class="dull"> {{"Total de Envio" | translate}} </ion-col>
+                        <ion-col text-right>{{1*orderDetails.shipping_total | currency:values.currency:true:'1.2-2'}} </ion-col>
+                    </ion-row>
+                    <!-- <ion-row>
+                        <ion-col class="dull">{{"Total de Taxa" | translate}} </ion-col>
+                        <ion-col text-right>{{1*orderDetails.total_tax | currency:values.currency:true:'1.2-2'}} </ion-col>
+                    </ion-row> -->
+                    <ion-row text-uppercase>
+                        <ion-col class="dull"><b>{{"Total geral" | translate}}</b> </ion-col>
+                        <ion-col text-right><b>{{1*orderDetails.total | currency:values.currency:true:'1.2-2'}}</b> </ion-col>
+                    </ion-row>
+                </ion-item>
+            </ion-card>
+        </ion-item-group>
+    </div>
+</ion-content>

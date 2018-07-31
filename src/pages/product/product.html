@@ -1,0 +1,188 @@
+<ion-header no-border class="product-header">
+    <ion-navbar>
+        <ion-title text-center> </ion-title>
+    </ion-navbar>
+</ion-header>
+<ion-content class="product-page">
+    <ion-spinner style="margin-top: 44px;" *ngIf="!product" name="crescent"> </ion-spinner>
+    <div *ngIf="product" class="product-details">
+        <div *ngIf="product.images">
+            <ion-slides pager="true" loop="true" autoplay="5800">
+                <ion-slide *ngFor="let item of product.images"> <img style="width: 100%" src="{{item.src}}"> </ion-slide>
+            </ion-slides>
+        </div> <button ion-button clear *ngIf="!product.in_stock" item-left class="stock" color="danger">{{"Sem estoque" | translate}}
+      </button> <button ion-button clear *ngIf="values.wishlistId[product.id]" item-right class="wishlist1" color="danger">
+      <ion-icon name="md-heart" tappable (click)="removeFromWishlist(product.id)"></ion-icon>
+      </button> <button ion-button clear *ngIf="!values.wishlistId[product.id]" item-right class="wishlist2" color="danger">
+      <ion-icon name="md-heart-outline" tappable (click)="addToWishlist(product.id)"></ion-icon>
+      </button>
+        <div class="body-index">
+            <h2 class="product-name"> <b>{{product.name}}</b> </h2>
+            <ion-item style="background-color: transparent;" class="price-label" no-lines>
+                <h2 *ngIf="!product.sale_price">{{product.price | currency:values.currency:true:'1.2-2'}} </h2>
+                <h2 *ngIf="product.sale_price">{{product.sale_price | currency:values.currency:true:'1.2-2'}} </h2>
+                <h2 *ngIf="product.sale_price"><del>{{product.regular_price | currency:values.currency:true:'1.2-2'}}</del> <span class="percentage-off" *ngIf="product.sale_price">{{(1*product.regular_price-1*product.sale_price)*100/(1*product.regular_price) | number:'1.0-0'}}% Off</span> </h2>
+            </ion-item>
+            <!--variation product starts-->
+            <div *ngIf="variations?.length" class="variation-product">
+                <ion-item>
+                    <ion-label> {{"Selecione a opção" | translate}} </ion-label>
+                    <ion-select [(ngModel)]="options[0]" (ngModelChange)="changeProduct()">
+                        <div *ngFor="let option of variations">
+                            <div *ngIf="option.attributes.length == 1">
+                                <ion-option value="{{'variation_id:' + option.id + ':variation[attribute_pa_'+ option.attributes[0].name +']:' + option.attributes[0].option}}">{{option.attributes[0].option | uppercase}} - {{option.price | currency:values.currency:true:'1.2-2'}} </ion-option>
+                            </div>
+                            <div *ngIf="option.attributes.length == 2">
+                                <ion-option value="{{'variation_id:' + option.id + ':variation[attribute_pa_'+ option.attributes[0].name +']:' + option.attributes[0].option + ':variation[attribute_pa_'+ option.attributes[1].name +']:' + option.attributes[1].option}}">{{option.attributes[0].option | uppercase}} - {{option.attributes[1].option | uppercase}} - {{option.price | currency:values.currency:true:'1.2-2'}} </ion-option>
+                            </div>
+                        </div>
+                    </ion-select>
+                </ion-item>
+            </div>
+            <ion-grid class="rating-and-total-sales-grid">
+                <ion-row>
+                    <ion-col width-50>
+                        <h2 class="ratings" tappable (click)="showMoreReviews(product.name, product.rating_count, product.average_rating)"> <span item-center *ngIf='product.average_rating' class="rating">
+        <span class="star-icon" [ngClass]="{full: product.average_rating >= 1, half: product.average_rating == 0.5}">&#x2605;
+        </span> <span class="star-icon" [ngClass]="{full: product.average_rating >= 2, half: product.average_rating == 1.5}">&#x2605;
+        </span> <span class="star-icon" [ngClass]="{full: product.average_rating >= 3, half: product.average_rating == 2.5}">&#x2605;
+        </span> <span class="star-icon" [ngClass]="{full: product.average_rating >= 4, half: product.average_rating == 3.5}">&#x2605;
+        </span> <span class="star-icon" [ngClass]="{full: product.average_rating >= 5, half: product.average_rating == 4.5}">&#x2605;
+        </span> </span>
+                        </h2>
+                        <h3>{{"Classificações" | translate}}</h3>
+                    </ion-col>
+                    <ion-col width-50>
+                        <h2>{{product.total_sales}}</h2>
+                        <h3>{{"Pedidos" | translate}}</h3>
+                    </ion-col>
+                </ion-row>
+            </ion-grid>
+
+                    <!--ion-col width-50 class="col1">
+                        <ion-item>
+                            <ion-label>{{"Quantity" | translate}}</ion-label>
+                            <ion-input required type="number" [(ngModel)]="quantity" min="1" name="quantity"></ion-input>
+                        </ion-item>
+                    </ion-col-->
+
+
+
+
+            <div class="add-to-cart">
+                <button ion-button [disabled]='!product.in_stock || disableAddButton' text-uppercase color="button-color" item-right small style="border: 0; font-size: 14px" *ngIf="values.cart[product.id] == undefined || values.cart[product.id] == 0" (click)="addToCart()">
+                    Adicionar ao carrinho
+                  </button>
+
+                <button ion-button icon-only item-right small color="button-color" *ngIf="values.cart[product.id] >= 1">
+                  <button ion-button [disabled]='disableMinusButton' icon-only style="margin-left:4px" item-right small color="button-color" *ngIf="values.cart[product.id] >= 1" (click)="deleteFromCart()">
+                    <ion-icon name="md-remove">
+                    </ion-icon>
+                  </button>
+                  <button ion-button item-right color="button-color" class="quantity-button" small *ngIf="values.cart[product.id] >= 1">{{values.cart[product.id]}}
+                  </button>
+                  <button ion-button [disabled]='disablePlusButton' style="margin-right:4px" icon-only item-right small color="button-color" *ngIf="values.cart[product.id] >= 1" (click)="updateToCart()">
+                    <ion-icon name="md-add">
+                    </ion-icon>
+                  </button>
+                </button>
+            </div>
+
+            <div *ngIf="product.short_description" class="description">
+                <ion-item no-lines class="item-background"> {{"Descrição" | translate}} </ion-item>
+                <ion-item text-wrap no-lines>
+                    <div [innerHTML]="product.short_description"> </div>
+                </ion-item>
+            </div>
+            <div *ngIf="product.description && moreDescription" class="description">
+                <ion-item text-wrap no-lines>
+                    <div [innerHTML]="product.description"> </div>
+                </ion-item>
+            </div>
+            <div *ngIf="product.description && !product.short_description" class="description">
+                <ion-item no-lines class="item-background"> {{"Descrição" | translate}} </ion-item>
+                <ion-item text-wrap no-lines>
+                    <div [innerHTML]="product.description"> </div>
+                </ion-item>
+            </div>
+            <ion-item no-lines class="show-more" *ngIf="!moreDescription && product.short_description">
+                <h2 tappable (click)="showMore()"><span class="span1">{{"Leia mais" | translate}}</span><span class="span2"><ion-icon name="ios-more"></ion-icon></span></h2>
+            </ion-item>
+            <ion-item no-lines class="show-more" *ngIf="moreDescription">
+                <h2 tappable (click)="showLess()"><span class="span1">{{"Leia menos" | translate}}</span></h2>
+            </ion-item>
+            <div *ngIf="related?.length">
+                <ion-item *ngIf="related" class="item-background"> {{"Produtos relacionados" | translate}} </ion-item>
+                <div class="scroll">
+                    <a *ngFor="let item of related">
+                        <ion-card>
+                            <ion-card-content tappable (click)="getRelatedProduct(item.id)"> <img src="{{item.image_thumb}}" /> </ion-card-content>
+                            <h5>{{item.name}}</h5>
+                            <ion-label> <span class="price-regular" *ngIf="!item.sale_price">{{1*item.price | currency:values.currency:true:'1.2-2'}}
+            </span> <span class="price-regular" *ngIf="item.sale_price">{{1*item.sale_price | currency:values.currency:true:'1.2-2'}}
+            </span> <span *ngIf="item.sale_price">
+            <del>{{1*item.regular_price | currency:values.currency:true:'1.2-2'}}
+            </del>
+            </span> </ion-label>
+                            <h3 style="margin-bottom:6px;font-size:12px; text-align: center; margin-top: 4px;"> <span class="related-rating related-review-star">
+             <span class="star-icon" [ngClass]="{full: item.average_rating >= 1, half: item.average_rating == 0.5}">&#x2605;</span> <span class="star-icon" [ngClass]="{full: item.average_rating >= 2, half: item.average_rating == 1.5}">&#x2605;</span> <span class="star-icon" [ngClass]="{full: item.average_rating >= 3, half: item.average_rating == 2.5}">&#x2605;</span> <span class="star-icon" [ngClass]="{full: item.average_rating >= 4, half: item.average_rating == 3.5}">&#x2605;</span> <span class="star-icon" [ngClass]="{full: item.average_rating >= 5, half: item.average_rating == 4.5}">&#x2605;</span> </span>
+                            </h3>
+                        </ion-card>
+                    </a>
+                </div>
+            </div>
+            <div *ngIf="upsell?.length">
+                <ion-item *ngIf="upsell" class="item-background"> {{"Você pode gostar" | translate}} </ion-item>
+                <div class="scroll">
+                    <a *ngFor="let item of upsell">
+                        <ion-card>
+                            <ion-card-content tappable (click)="getRelatedProduct(item.id)"> <img src="{{item.image_thumb}}" /> </ion-card-content>
+                            <h5>{{item.name}}</h5>
+                            <ion-label> <span class="price-regular" *ngIf="!item.sale_price">{{1*item.price | currency:values.currency:true:'1.2-2'}}
+            </span> <span class="price-regular" *ngIf="item.sale_price">{{1*item.sale_price | currency:values.currency:true:'1.2-2'}}
+            </span> <span *ngIf="item.sale_price">
+            <del>{{1*item.regular_price | currency:values.currency:true:'1.2-2'}}
+            </del>
+            </span> </ion-label>
+                            <h3 style="margin-bottom:6px;font-size:12px; text-align: center; margin-top: 4px;"> <span class="related-rating related-review-star">
+             <span class="star-icon" [ngClass]="{full: item.average_rating >= 1, half: item.average_rating == 0.5}">&#x2605;</span> <span class="star-icon" [ngClass]="{full: item.average_rating >= 2, half: item.average_rating == 1.5}">&#x2605;</span> <span class="star-icon" [ngClass]="{full: item.average_rating >= 3, half: item.average_rating == 2.5}">&#x2605;</span> <span class="star-icon" [ngClass]="{full: item.average_rating >= 4, half: item.average_rating == 3.5}">&#x2605;</span> <span class="star-icon" [ngClass]="{full: item.average_rating >= 5, half: item.average_rating == 4.5}">&#x2605;</span> </span>
+                            </h3>
+                        </ion-card>
+                    </a>
+                </div>
+            </div>
+            <div *ngIf="reviews?.length">
+                <ion-item *ngIf="reviews" class="item-background"> {{"Comentários" | translate}} </ion-item>
+                <div *ngFor="let item of reviews" class="reviews">
+                    <ion-item no-lines>
+                        <ion-avatar item-start style="margin:8px"> <img src="https://www.gravatar.com/avatar/{{item.avatar}}"> </ion-avatar>
+                        <h3 style="margin-bottom:6px;font-size:15px">{{item.name}} <span class="rating review-star">
+             <span class="star-icon" [ngClass]="{full: item.rating >= 1, half: item.rating == 0.5}">&#x2605;</span> <span class="star-icon" [ngClass]="{full: item.rating >= 2, half: item.rating == 1.5}">&#x2605;</span> <span class="star-icon" [ngClass]="{full: item.rating >= 3, half: item.rating == 2.5}">&#x2605;</span> <span class="star-icon" [ngClass]="{full: item.rating >= 4, half: item.rating == 3.5}">&#x2605;</span> <span class="star-icon" [ngClass]="{full: item.rating >= 5, half: item.rating == 4.5}">&#x2605;</span> </span>
+                        </h3>
+                        <h3 style="color:#9e9898;margin-bottom:4px">{{item.date_created | date:'MMM d, y hh:mm a'}}</h3>
+                    </ion-item>
+                    <p style="padding: 12px; margin: 0; background-color: white;" text-wrap>{{item.review}}</p>
+                </div>
+            </div>
+            <div *ngIf="crossSell?.length">
+                <ion-item *ngIf="crossSell" class="item-background"> {{"Produtos recomendados" | translate}} </ion-item>
+                <div class="scroll">
+                    <a *ngFor="let item of crossSell">
+                        <ion-card>
+                            <ion-card-content tappable (click)="getRelatedProduct(item.id)"> <img src="{{item.image_thumb}}" /> </ion-card-content>
+                            <h5>{{item.name}}</h5>
+                            <ion-label> <span class="price-regular" *ngIf="!item.sale_price">{{1*item.price | currency:values.currency:true:'1.2-2'}}
+              </span> <span class="price-regular" *ngIf="item.sale_price">{{1*item.sale_price | currency:values.currency:true:'1.2-2'}}
+              </span> <span *ngIf="item.sale_price">
+              <del>{{1*item.regular_price | currency:values.currency:true:'1.2-2'}}
+              </del>
+              </span> </ion-label>
+                            <h3 style="margin-bottom:6px;font-size:12px; text-align: center; margin-top: 4px;"> <span class="related-rating related-review-star">
+               <span class="star-icon" [ngClass]="{full: item.average_rating >= 1, half: item.average_rating == 0.5}">&#x2605;</span> <span class="star-icon" [ngClass]="{full: item.average_rating >= 2, half: item.average_rating == 1.5}">&#x2605;</span> <span class="star-icon" [ngClass]="{full: item.average_rating >= 3, half: item.average_rating == 2.5}">&#x2605;</span> <span class="star-icon" [ngClass]="{full: item.average_rating >= 4, half: item.average_rating == 3.5}">&#x2605;</span> <span class="star-icon" [ngClass]="{full: item.average_rating >= 5, half: item.average_rating == 4.5}">&#x2605;</span> </span>
+                            </h3>
+                        </ion-card>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div> <br> </ion-content>

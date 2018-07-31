@@ -1,0 +1,35 @@
+<ion-header no-border>
+    <ion-navbar no-border-bottom color="header"> <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+        <ion-title text-uppercase> {{tag}} </ion-title>
+    </ion-navbar>
+</ion-header>
+<ion-content class="blog">
+    <ion-spinner *ngIf="!posts?.posts" name="crescent"></ion-spinner>
+    <div *ngIf="posts?.posts" class="no-post">
+        <div *ngIf="!posts?.posts.length" class="not-found"> <img src="assets/image/empty-cart.png">
+            <h4 color="side-heading-color" text-center no-lines>{{"Oops!" | translate}}</h4>
+            <h5 text-center no-lines>{{"We could not find anything to show you" | translate}}</h5> <button ion-button class="butt" item-center medium color="button-color" text-uppercase (click)="goBack()">{{"Back" | translate}}</button> </div>
+    </div>
+    <div class="show-recent" *ngIf="posts?.posts.length">
+        <div *ngFor="let post of posts?.posts">
+            <ion-card tappable (click)="goToPostDetail(post)">
+                <div *ngIf="post.thumbnail_images" class="post-image"> <img *ngIf="post.thumbnail_images.full" src="{{post.thumbnail_images.full.url}}"> </div>
+                <div *ngIf="!post.thumbnail_images && post.thumbnail" class="post-image"> <img src="{{post.thumbnail}}"> </div>
+                <div *ngIf="post.attachments.length && !post.thumbnail_images && !post.thumbnail"> <img *ngIf="post.attachments[0].mime_type == 'image/jpeg' || post.attachments[0].mime_type == 'image/gif' || post.attachments[0].mime_type == 'image/png'" src="{{post.attachments[0].url}}">
+                    <div *ngIf="post.attachments[0].mime_type != 'image/jpeg' && post.attachments[0].mime_type != 'image/gif' && post.attachments[0].mime_type != 'image/png'" class="videoContainer"> <video src="{{post.attachments[0].url}}" controls></video> </div>
+                </div>
+                <ion-card-content class="details">
+                    <ion-card-title [innerHTML]="post.title"> </ion-card-title>
+                    <p [innerHTML]="post.content"> </p>
+                    <h3 *ngIf="tag != 'help'">{{post.newdate | date:'MMM d, y hh:mm a'}}</h3>
+                </ion-card-content>
+            </ion-card>
+        </div>
+        <ion-item style="text-align: center;" [hidden]="hasMoreStories"> No More Stories </ion-item>
+    </div>
+    <ion-infinite-scroll (ionInfinite)="doInfinite($event)" *ngIf="hasMoreTopStories">
+        <ion-infinite-scroll-content loadingSpinner="crescent" loadingText='Loading more stories..'> </ion-infinite-scroll-content>
+    </ion-infinite-scroll>
+</ion-content>

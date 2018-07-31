@@ -1,0 +1,217 @@
+.login-pages {
+    .scroll-content {
+        margin-top: 0 !important;
+    }
+    background-color: aliceblue;
+    .toolbar {
+        background: transparent;
+    }
+    .logo-image {
+        margin: 10px;
+    }
+    img {
+        max-width: 100%;
+        border: 0;
+        height: 220px;
+        margin: auto;
+        display: block;
+        border-radius: 50%;
+    }
+    .login-register {
+        .segment {
+            margin-top: 12px;
+            .segment .segment-button.segment-activated {
+                color: $button-color;
+                background-color: transparent;
+                border: 0;
+                border-radius: 0;
+                height: 50px;
+                border-bottom: 3px solid $button-color;
+                font-weight: 600;
+                font-size: 16px;
+            }
+            .segment .segment-button {
+                border: 0;
+                color: #000;
+                font-weight: 600;
+                height: 50px;
+                background-color: transparent;
+                font-size: 16px;
+                border-bottom: 0.5px solid rgba(255, 87, 34, 0.47);
+            }
+            .label-md {
+                margin: 5px;
+                text-transform: capitalize;
+            }
+        }
+        .margin {
+            margin: 10px 20px; //border: 2px solid #e2e2e2;
+            padding: 20px;
+            background-color: transparent;
+        }
+        .list {
+            margin: 0 0 16px 0;
+        }
+        .item {
+            padding: 0px;
+        }
+        h2 {
+            font-size: 13px;
+            text-align: center;
+            color: #777;
+            letter-spacing: 0.2px;
+            margin-top: 10px;
+            a {
+                color: $button-color;
+            }
+        }
+        .login {
+            ion-item {
+                background-color: transparent;
+            }
+            .list>.item-block:first-child {
+                border-top: none;
+            }
+            .list>.item-block:last-child {
+                border-bottom: 2px solid #ddd;
+            }
+            .list .item-block .item-inner {
+                border-bottom: none;
+            }
+            .item {
+                border-bottom: 2px solid #ddd;
+            }
+            h2 {
+                font-size: 13px;
+                text-align: right;
+                color: #777;
+                letter-spacing: 0.2px;
+            }
+            h3 {
+                font-size: 15px;
+                text-align: center;
+            }
+            ion-icon {
+                color: #b5b5b5;
+                font-size: 2rem;
+            }
+            .button {
+                border-radius: 20px;
+            }
+            .item ion-icon[item-left] {
+                margin-left: 0;
+                margin-top: 9px;
+                margin-bottom: 0;
+            }
+            input {
+                font-size: 15px;
+                color: #222;
+                letter-spacing: 0.2px;
+            }
+            .or-button {
+                border: 0;
+                border-radius: 50%;
+                width: 50px;
+                margin-top: -45px;
+                background: #f0f8ff;
+                position: absolute;
+                right: 45%; //border: 1px solid #f0f8ff;
+            }
+            .item-md ion-icon[item-left]+.item-inner {
+                margin-left: 0;
+            }
+            .item-md.item-input.ng-invalid.ng-touched:not(.input-has-focus) .item-inner {
+                border-bottom-color: #f2f2f2;
+                box-shadow: none;
+            }
+            .item-md.item-input.input-has-focus .item-inner {
+                box-shadow: none;
+            }
+            .item-md.item-input.ng-valid.input-has-value:not(.input-has-focus) .item-inner {
+                border-bottom-color: transparent;
+                box-shadow: none;
+            }
+            .list-md .item-input.ng-valid.input-has-value:not(.input-has-focus):last-child {
+                border-bottom-color: #f2f2f2;
+                box-shadow: none;
+            }
+            .list-md .item-input.input-has-focus:last-child {
+                box-shadow: none;
+            }
+            .list-md .item-input.ng-invalid.ng-touched:not(.input-has-focus):last-child {
+                border-bottom-color: #f2f2f2;
+                box-shadow: none;
+            }
+            .socialButtons {
+                margin-top: 16px;
+                .col1 {
+                    padding: 5px 2px;
+                    button {
+                        height: 2.8em;
+                        // border-radius: 2px;
+                        border-bottom-left-radius: 20px;
+                        border-top-left-radius: 20px;
+                        background-color: #3B5998;
+                        color: #fff
+                    }
+                }
+                .col2 {
+                    padding: 5px 2px;
+                    button {
+                        height: 2.8em;
+                        border-radius: 2px;
+                        border-bottom-right-radius: 20px;
+                        border-top-right-radius: 20px;
+                        background-color: #d34836;
+                        color: #fff
+                    }
+                }
+            }
+            .margin-error-message {
+                margin: 10px 20px 0;
+                h3 {
+                    text-align: center;
+                    color: #ff4444;
+                    font-size: 15px;
+                    margin-bottom: 0;
+                }
+            }
+        }
+    }
+}
+.account-list {
+    margin-top: 20px;
+    ion-card {
+        margin: 10px;
+        border-radius: 4px;
+    }
+    .shop-name {
+        text-align: center;
+        font-weight: 600;
+    }
+    ion-item {
+        border-bottom: 1px solid #efefef;
+    }
+    ion-icon {
+        color: #efefef;
+    }
+}
+.login-header {
+    .toolbar-background-ios {
+        background: transparent;
+    }
+    .bar-button-default-ios {
+        color: $header;
+        background-color: transparent;
+    }
+    .toolbar-background-md {
+        border-color: #ffffff;
+        background: #ffffff;
+    }
+}
+.account-header {
+    .toolbar-background-md, .toolbar-background-ios {
+        border-color: transparent;
+        background: transparent;
+    }
+}

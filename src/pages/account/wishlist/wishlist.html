@@ -1,0 +1,48 @@
+<ion-header no-border class="wishlist-header">
+    <ion-navbar color="header">
+        <button ion-button menuToggle>
+            <ion-icon name="menu"> </ion-icon>
+        </button>
+        <ion-title text-center>{{"Lista de Desejos"| translate}} </ion-title>
+    </ion-navbar>
+</ion-header>
+<ion-content class="wishlistPage">
+    <ion-spinner *ngIf="!wishlist" name="crescent"> </ion-spinner>
+    <div *ngIf="wishlist">
+        <div class="empty" *ngIf="!wishlist.length"> <img src="assets/image/wishlist.png">
+            <h4 text-center no-lines>{{"Sua Lista de Desejos está vazia" | translate}}</h4> </div>
+        <div *ngIf="wishlist.length">
+            <div *ngFor="let item of wishlist | keys" class="wish-list">
+                <ion-item no-lines>
+                    <ion-thumbnail item-left (click)="getProduct(item.value.id)"> <img src="{{item.value.image_thumb}}">
+                        <button class="no-stock-button" ion-button *ngIf="item.value.stock_status == 'outofstock'">{{"Sem estoque" | translate}} </button>
+                    </ion-thumbnail>
+                    <h2 wrap-text>{{item.value.name}}
+            </h2>
+                    <h3 wrap-text> {{"Preço" | translate}}: {{item.value.price | currency:values.currency:true:'1.2-2'}}
+            </h3>
+                    <h3 style="font-size:11px; margin: 3px 0">
+                   <span class="rating review-star">
+                   <span class="star-icon" [ngClass]="{full: item.value.average_rating >= 1, half: item.value.average_rating == 0.5}">&#x2605;</span>
+                   <span class="star-icon" [ngClass]="{full: item.value.average_rating >= 2, half: item.value.average_rating == 1.5}">&#x2605;</span>
+                   <span class="star-icon" [ngClass]="{full: item.value.average_rating >= 3, half: item.value.average_rating == 2.5}">&#x2605;</span>
+                   <span class="star-icon" [ngClass]="{full: item.value.average_rating >= 4, half: item.value.average_rating == 3.5}">&#x2605;</span>
+                   <span class="star-icon" [ngClass]="{full: item.value.average_rating >= 5, half: item.value.average_rating == 4.5}">&#x2605;</span>
+                   </span>
+                   <span style="font-size: 10px;">({{item.value.review_count}})</span>
+                   </h3>
+                    <ion-row class="add-remove-button">
+                        <ion-col royal width-50>
+                            <button ion-button full color="red" clear text-uppercase no-padding no-margin (click)="removeFromWishlist(item.value.id)" style="margin-left: -25px;">
+                                <ion-icon ios="ios-trash" md="md-trash"></ion-icon></button>
+                        </ion-col>
+                        <ion-col royal width-50>
+                            <button ion-button full [disabled]="item.value.stock_status == 'outofstock'" color="button-color" no-padding no-margin clear text-uppercase (click)="addToCart(item.value.id, item.value.type)">
+                                <ion-icon name="md-cart"></ion-icon> {{"Adicionar ao carrinho" | translate}} </button>
+                        </ion-col>
+                    </ion-row>
+                </ion-item>
+            </div>
+        </div>
+    </div>
+</ion-content>

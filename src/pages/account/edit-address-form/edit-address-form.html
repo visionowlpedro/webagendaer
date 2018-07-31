@@ -1,0 +1,85 @@
+<ion-header no-border>
+    <ion-navbar color="header">
+        <button ion-button menuToggle>
+            <ion-icon name="menu"> </ion-icon>
+        </button>
+        <ion-title text-center>{{"Editar Endereço" | translate}} </ion-title>
+<ion-buttons end>
+    <button ion-button (click)="dismiss()">
+        <ion-icon name="md-close" style="color: #fff; font-size: 20px; margin: 16px;"></ion-icon>
+      </button>
+    </ion-buttons>
+    </ion-navbar>
+</ion-header>
+<ion-content class="edit-address-form">
+    <div>
+        <ion-card>
+            <ion-card-header style="background-color: #f5f5f5"> {{"Endereço de cobrança" | translate}} </ion-card-header>
+            <ion-card-content>
+                <ion-list>
+                    <ion-item>
+                        <ion-label floating>{{"Primeiro nome" | translate}} </ion-label>
+                        <ion-input required type="text" [(ngModel)]="editAddress.billing.first_name" name="first_name"> </ion-input>
+                    </ion-item>
+                    <ion-item>
+                        <ion-label floating>{{"Último nome"| translate}} </ion-label>
+                        <ion-input required type="text" [(ngModel)]="editAddress.billing.last_name" name="last_name"> </ion-input>
+                    </ion-item>
+                    <!--ion-item>
+                        <ion-label floating>{{"Company" | translate}}
+                        </ion-label>
+                        <ion-input required type="text" [(ngModel)]="editAddress.billing.company" name="company">
+                        </ion-input>
+                   </ion-item-->
+                    <ion-item>
+                        <ion-label floating>{{"Celular" | translate}} </ion-label>
+                        <ion-input required type="text" [(ngModel)]="editAddress.billing.phone" name="phone"> </ion-input>
+                    </ion-item>
+                    <ion-item>
+                        <ion-label floating>{{"Email" | translate}} </ion-label>
+                        <ion-input required type="email" [(ngModel)]="editAddress.billing.email" name="email"> </ion-input>
+                    </ion-item>
+                    <ion-item>
+                        <ion-label floating>{{"Endereço" | translate}} 1 </ion-label>
+                        <ion-input required type="text" [(ngModel)]="editAddress.billing.address_1" name="address_1"> </ion-input>
+                    </ion-item>
+                    <ion-item>
+                        <ion-label floating>{{"Complemento" | translate}} 2 </ion-label>
+                        <ion-input required type="text" [(ngModel)]="editAddress.billing.address_2" name="address_2"> </ion-input>
+                    </ion-item>
+                    <ion-item>
+                        <ion-label floating>{{"Cidade" | translate}} </ion-label>
+                        <ion-input required type="text" [(ngModel)]="editAddress.billing.city" name="city"> </ion-input>
+                    </ion-item>
+                    <ion-item *ngIf="country">
+                        <ion-label> {{"País" | translate}} </ion-label>
+                        <ion-select [(ngModel)]="editAddress.billing.country" (ngModelChange)="getBillingRegion(editAddress.billing.country)" name="country">
+                            <div *ngFor="let field of country.country.countries | keys">
+                                <ion-option value="{{field.key}}">{{field.value}} </ion-option>
+                            </div>
+                        </ion-select>
+                    </ion-item>
+                    <ion-item *ngIf="billing_states">
+                        <ion-label> {{"Estado" | translate}} </ion-label>
+                        <ion-select [(ngModel)]="editAddress.billing.state" name="state">
+                            <div *ngFor="let field of billing_states | keys">
+                                <ion-option value="{{field.key}}">{{field.value}} </ion-option>
+                            </div>
+                        </ion-select>
+                    </ion-item>
+                    <ion-item *ngIf="!billing_states">
+                        <ion-label floating>{{"Estado" | translate}} </ion-label>
+                        <ion-input required type="text" [(ngModel)]="editAddress.billing.state" name="state"> </ion-input>
+                    </ion-item>
+                    <ion-item>
+                        <ion-label floating>{{"CEP" | translate}} </ion-label>
+                        <ion-input required type="text" [(ngModel)]="editAddress.billing.postcode" name="postcode"> </ion-input>
+                    </ion-item>
+                </ion-list>
+            </ion-card-content>
+        </ion-card>
+    </div>
+    <div class="save-button">
+        <button ion-button block color="button-color" type="submit" [disabled]="disableSubmit" class="button button-block button-default" text-uppercase (click)="saveAddress()">{{Salvar | translate}} </button>
+    </div>
+</ion-content>

@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <title>mStoreApp</title>
+  <meta name="viewport" content="viewport-fit=cover, width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="format-detection" content="telephone=no">
+  <meta name="msapplication-tap-highlight" content="no">
+
+  <link rel="icon" type="image/x-icon" href="assets/icon/favicon.ico">
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#4e8ef7">
+  
+  <!-- add to homescreen for ios -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  
+  <!-- cordova.js required for cordova apps -->
+  <script src="cordova.js"></script>
+  <script src="assets/js/mstoreapp.js"></script>
+  
+
+  <!-- un-comment this code to enable service worker
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('service-worker.js')
+        .then(() => console.log('service worker installed'))
+        .catch(err => console.log('Error', err));
+    }
+  </script>-->
+
+  <style>
+/* =Elements style
+---------------------- */
+.load-wrapp {
+  float: left;
+	margin-left: auto;
+	margin-right: auto;
+	display: block;
+	width: 100%;
+	height: 100px;
+	margin: 0 10px 10px 0;
+	padding: 20px 20px 20px;
+	border-radius: 5px;
+	text-align: center;
+
+}
+
+.load-wrapp p {padding: 0 0 20px;}
+.load-wrapp:last-child {margin-right: 0;}
+
+.line {
+	display: inline-block;
+	width: 15px;
+	height: 15px;
+	border-radius: 15px;
+	background-color: #ae2320;
+}
+
+/* =Animate the stuff
+------------------------ */
+.load-1 .line:nth-last-child(1) {animation: loadingA 1.5s 1s infinite;}
+.load-1 .line:nth-last-child(2) {animation: loadingA 1.5s .5s infinite;}
+.load-1 .line:nth-last-child(3) {animation: loadingA 1.5s 0s infinite;}
+
+.load-2 .line:nth-last-child(1) {animation: loadingB 1.5s 1s infinite;}
+.load-2 .line:nth-last-child(2) {animation: loadingB 1.5s .5s infinite;}
+.load-2 .line:nth-last-child(3) {animation: loadingB 1.5s 0s infinite;}
+
+.load-3 .line:nth-last-child(1) {animation: loadingC .6s .1s linear infinite;}
+.load-3 .line:nth-last-child(2) {animation: loadingC .6s .2s linear infinite;}
+.load-3 .line:nth-last-child(3) {animation: loadingC .6s .3s linear infinite;}
+.load-3{
+	margin-left: auto;
+	margin-right: auto;
+	display: block;
+}
+.load-4 .ring-1 {animation: loadingD 1.5s .3s cubic-bezier(.17,.37,.43,.67) infinite;}
+
+.load-5 .ball-holder {animation: loadingE 1.3s linear infinite;}
+
+.load-6 .letter {
+	animation-name: loadingF;
+	animation-duration: 3.6s;
+	animation-iteration-count: infinite;
+	animation-direction: linear;
+}
+
+.l-1 {animation-delay: .48s;}
+.l-2 {animation-delay: .6s;}
+.l-3 {animation-delay: .72s;}
+.l-4 {animation-delay: .84s;}
+.l-5 {animation-delay: .96s;}
+.l-6 {animation-delay: 1.08s;}
+.l-7 {animation-delay: 1.2s;}
+.l-8 {animation-delay: 1.32s;}
+.l-9 {animation-delay: 1.44s;}
+.l-10 {animation-delay: 1.56s;}
+
+.load-7 .square {animation: loadingG 1.5s cubic-bezier(.17,.37,.43,.67) infinite;}
+
+.load-8 .line {animation: loadingH 1.5s cubic-bezier(.17,.37,.43,.67) infinite;}
+
+.load-9 .spinner {animation: loadingI 2s linear infinite;}
+.load-9 .bubble-1, .load-9 .bubble-2 {animation: bounce 2s ease-in-out infinite;}
+.load-9 .bubble-2 {animation-delay: -1.0s;}
+
+.load-10 .bar {animation: loadingJ 2s cubic-bezier(.17,.37,.43,.67) infinite;}
+
+@keyframes loadingA {
+	0 {height: 15px;}
+	50% {height: 35px;}
+	100% {height: 15px;}
+}
+
+@keyframes loadingB {
+	0 {width: 15px;}
+	50% {width: 35px;}
+	100% {width: 15px;}
+}
+
+@keyframes loadingC {
+	0 {transform: translate(0,0);}
+	50% {transform: translate(0,15px);}
+	100% {transform: translate(0,0);}
+}
+
+@keyframes loadingD {
+	0 {transform: rotate(0deg);}
+	50% {transform: rotate(180deg);}
+	100% {transform: rotate(360deg);}
+}
+
+@keyframes loadingE {
+	0 {transform: rotate(0deg);}
+	100% {transform: rotate(360deg);}
+}
+
+@keyframes loadingF {
+	0% {opacity: 0;}
+	100% {opacity: 1;}
+}
+
+@keyframes loadingG {
+	0% {transform: translate(0,0) rotate(0deg);}
+	50% {transform: translate(70px,0) rotate(360deg);}
+	100% {transform: translate(0,0) rotate(0deg);}
+}
+
+@keyframes loadingH {
+	0% {width: 15px;}
+	50% {width: 35px; padding: 4px;}
+	100% {width: 15px;}
+}
+
+@keyframes loadingI {
+	100% {transform: rotate(360deg);}
+}
+
+@keyframes bounce  {
+	0%, 100% {transform: scale(0.0);}
+	50% {transform: scale(1.0);}
+}
+
+@keyframes loadingJ {
+	0%,100% {transform: translate(0,0);}
+
+	50% {
+		transform: translate(80px,0);
+		background-color: #ae2320;
+		width: 25px;
+	}
+}
+
+
+.load {
+  position: fixed;
+  background: #fff;
+  width: 100%;
+  height: 0;
+  display: flex;
+  opacity: 0;
+  animation-name: end;
+  animation-duration: 6s;
+  animation-iteration-count: 1;
+  animation-timing-function: ease-in-out;
+}
+.load .fa {
+  animation-name: load;
+  animation-duration: 1s;
+  animation-iteration-count: 3;
+  animation-timing-function: linear;
+  margin: auto;
+  font-size: 3em;
+}
+
+@keyframes load {
+  0% {
+    transform: rotate(-360deg);
+    color: #ae2320;
+    z-index: 99999;
+  }
+  100% {
+    z-index: 99999;
+    rotate:(180deg);
+    color: #333;
+  }
+}
+
+@keyframes end {
+  0%,100% {
+    opacity: 0;
+    z-index: 99999;
+    height: 0;
+  }
+  10%, 20%, 30%, 40%, 50%, 60%, 70%, 80%, 90% {
+    opacity: 1;
+    height: 100vh;
+    z-index: 99999;
+  }
+}
+
+  </style>
+
+  <link href="build/main.css" rel="stylesheet">
+
+</head>
+<body>
+
+  <div class="load">
+    <div class="load-wrapp">
+      <div class="load-3">
+        <div class="line"></div>
+        <div class="line"></div>
+        <div class="line"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Ionic's root component and where the app will load -->
+  <ion-app></ion-app>
+
+  <!-- The polyfills js is generated during the build process -->
+  <script src="build/polyfills.js"></script>
+  <script src="build/vendor.js"></script>
+  
+
+  <!-- The bundle js is generated during the build process -->
+  <script src="build/main.js"></script>
+
+  <!-- google maps script is loaded last as to not block rendering -->
+  <!--script async defer src="https://maps.googleapis.com/maps/api/js"></script-->
+
+</body>
+</html>

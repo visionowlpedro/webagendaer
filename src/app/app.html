@@ -1,0 +1,23 @@
+<ion-menu [content]="content">
+  <ion-content class="theme_background" padding>
+    <div class="sidemenu_wrapper">
+      <div class="profile_banner">
+        <div class="profie_circle">
+        </div>
+        <h5>Nome_cliente</h5>
+        <hr>
+      </div>
+      <ul>
+        <li menuClose>
+          <ion-icon name="ios-heart-outline"></ion-icon>Favoritos
+        </li>
+        <li menuClose>
+          <ion-icon name="ios-book-outline"></ion-icon>Meus Pedidos</li>
+          <li menuClose>
+            <ion-icon name="ios-log-out-outline"></ion-icon>Sair</li>
+          </ul>
+        </div>
+      </ion-content>
+    </ion-menu>
+    <ion-nav [root]="rootPage" #content swipeBackEnabled="false">
+    </ion-nav>
